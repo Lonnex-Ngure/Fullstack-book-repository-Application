@@ -1,0 +1,67 @@
+//books table
+//List all books
+GET http://localhost:8000/api/books
+
+###
+//Get book by ID
+GET http://localhost:8000/api/books/7
+
+###
+//Create a new book
+POST http://localhost:8000/api/books
+Content-Type: application/json
+
+{
+  "title": "Beloved ",
+  "author": "Toni Morrison",
+  "year": 1987
+}
+
+###
+//Update book by ID
+PUT http://localhost:8000/api/books/11
+Content-Type: application/json
+
+{
+  "title": "Beloved",
+  "author": "Toni Morrison",
+  "year": 1987
+}
+
+###
+//Delete book by ID
+DELETE http://localhost:8000/api/books/
+
+
+###
+//users table
+//List all users
+GET http://localhost:8000/api/users
+
+###
+//Get user by ID
+GET http://localhost:8000/api/users/2
+
+###
+//Create a new user
+POST http://localhost:8000/api/users
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "password": "password123"
+}
+
+###
+//Update user by ID
+PUT http://localhost:8000/api/users/7
+Content-Type: application/json
+
+{
+  "username": "johnsmith",
+  "password": "newpassword1234"
+}
+
+###
+//Delete user by ID
+DELETE http://localhost:8000/api/users/
