@@ -1,5 +1,5 @@
 {
-  "id": "28a05cbb-c3fe-4ea4-a73c-4b0bafe9a601",
+  "id": "d6325cef-e159-41cc-9f19-554270f77ba8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -18,19 +18,19 @@
           "name": "title",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "author": {
           "name": "author",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "year": {
           "name": "year",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -50,15 +50,15 @@
         },
         "username": {
           "name": "username",
-          "type": "text",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "password": {
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
