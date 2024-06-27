@@ -7,7 +7,7 @@ import { bookReducer } from "./reducer";
 import { Book } from "./types";
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api"; // Use the API URL directly
+const API_URL = "http://localhost:8000/api"; 
 
 const App: React.FC = () => {
   const [books, dispatch] = useReducer(bookReducer, []);
@@ -15,16 +15,21 @@ const App: React.FC = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const booksPerPage = 5;
-  const totalPages = Math.ceil(books.length / booksPerPage);
 
   const fetchBooks = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(`${API_URL}/books`);
       dispatch({ type: "INIT", payload: response.data });
+      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch books:", error);
+      setError("Failed to fetch books");
+      setLoading(false);
     }
   };
 
@@ -42,26 +47,36 @@ const App: React.FC = () => {
 
   const handleSubmit = async (book: Book) => {
     try {
+      setLoading(true);
+      let response;
       if (editingBook) {
-        await axios.put(`${API_URL}/books/${book.id}`, book);
-        dispatch({ type: "UPDATE_BOOK", book });
+        response = await axios.put(`${API_URL}/books/${book.id}`, book);
+        dispatch({ type: "UPDATE_BOOK", book: response.data });
       } else {
-        const response = await axios.post(`${API_URL}/books`, book);
+        response = await axios.post(`${API_URL}/books`, book);
         dispatch({ type: "ADD_BOOK", book: response.data });
       }
       setEditingBook(null);
-      fetchBooks(); // Refetch books after add/update
+      setLoading(false);
+      window.location.reload(); 
     } catch (error) {
       console.error("Failed to save book:", error);
+      setError("Failed to save book");
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id: number) => {
     try {
+      setLoading(true);
       await axios.delete(`${API_URL}/books/${id}`);
       dispatch({ type: "DELETE_BOOK", id });
+      setLoading(false);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to delete book:", error);
+      setError("Failed to delete book");
+      setLoading(false);
     }
   };
 
@@ -79,6 +94,8 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>Book Repository</h1>
+      {loading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
       <div className="search-container">
         <input
           type="text"
@@ -101,7 +118,7 @@ const App: React.FC = () => {
       />
       <Pagination
         currentPage={currentPage}
-        totalPages={totalPages}
+        totalPages={Math.ceil(filteredBooks.length / booksPerPage)}
         onPageChange={handlePageChange}
       />
     </div>

@@ -17,6 +17,10 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, book }) => {
       if (titleRef.current) titleRef.current.value = book.title;
       if (authorRef.current) authorRef.current.value = book.author;
       if (yearRef.current) yearRef.current.value = book.year.toString();
+    } else {
+      if (titleRef.current) titleRef.current.value = '';
+      if (authorRef.current) authorRef.current.value = '';
+      if (yearRef.current) yearRef.current.value = '';
     }
   }, [book]);
 
@@ -29,9 +33,7 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, book }) => {
       year: Number(yearRef.current?.value) || 0,
     };
     onSubmit(newBook);
-
-    // Reset form fields after submission
-    if (!book) { // Only clear the form if we're adding a new book
+    if (!book) {
       if (titleRef.current) titleRef.current.value = '';
       if (authorRef.current) authorRef.current.value = '';
       if (yearRef.current) yearRef.current.value = '';
